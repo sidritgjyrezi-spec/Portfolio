@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sidrit Gjyrezi — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --navy:   #0B0E1A;
+            --navy2:  #111425;
+            --navy3:  #181D32;
+            --cream:  #E8E4DC;
+            --cyan:   #00D4FF;
+            --violet: #7B5FD4;
+            --amber:  #F5A623;
+            --muted:  #8890AA;
+            --border: rgba(255,255,255,0.07);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--navy); color: var(--cream);
+            font-family: 'Inter', sans-serif; font-size: 16px;
+            line-height: 1.6; overflow-x: hidden;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.2rem 5vw;
+            background: rgba(11,14,26,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: 0.02em; color: var(--cream); text-decoration: none; }
+        .nav-logo span { color: var(--cyan); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--cream); }
+
+        /* ─── HERO ─── */
+        #hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 0 5vw; overflow: hidden; }
+        canvas#stars { position: absolute; inset: 0; pointer-events: none; }
+        .hero-inner { position: relative; z-index: 2; max-width: 800px; }
+        .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 1.5rem; }
+        .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--cyan); }
+        h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 700; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+        h1 .line2 { color: var(--violet); }
+        .hero-sub { font-size: clamp(1rem, 2vw, 1.2rem); color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 2.5rem; }
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2.8rem; }
+        .tag { display: inline-block; padding: 0.3rem 0.85rem; border-radius: 100px; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; border: 1px solid var(--border); color: var(--muted); background: rgba(255,255,255,0.04); }
+        .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn { display: inline-block; padding: 0.85rem 2rem; border-radius: 6px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.02em; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+        .btn-primary { background: var(--cyan); color: var(--navy); }
+        .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+        .btn-outline { background: transparent; color: var(--cream); border: 1px solid rgba(255,255,255,0.2); }
+        .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-1px); }
+        .hero-scroll { position: absolute; bottom: 2.5rem; left: 5vw; display: flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); z-index: 2; }
+        .hero-scroll::after { content: ''; display: block; width: 40px; height: 1px; background: var(--muted); animation: scrollLine 2s ease-in-out infinite; }
+        @keyframes scrollLine { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        /* ─── SECTIONS ─── */
+        section { padding: 7rem 5vw; }
+        .section-label { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); font-weight: 600; margin-bottom: 1rem; }
+        h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 3.5rem; line-height: 1.1; }
+        h2 em { color: var(--violet); font-style: normal; }
+        .section-divider { width: 100%; height: 1px; background: linear-gradient(90deg, var(--border) 0%, transparent 100%); }
+
+        /* ─── ABOUT ─── */
+        #about .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+        .about-text p { color: var(--muted); line-height: 1.8; margin-bottom: 1.2rem; }
+        .about-text p strong { color: var(--cream); }
+        .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .stat-card { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; }
+        .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 2.4rem; font-weight: 700; color: var(--cream); line-height: 1; }
+        .stat-num span { color: var(--cyan); font-size: 1.6rem; }
+        .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem; }
+
+        /* ─── SKILLS ─── */
+        #skills { background: var(--navy2); }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+        .skill-card { background: var(--navy3); border: 1px solid var(--border); border-radius: 12px; padding: 1.6rem; transition: border-color 0.2s, transform 0.2s; }
+        .skill-card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-3px); }
+        .skill-icon { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1rem; }
+        .skill-icon.cyan  { background: rgba(0,212,255,0.12); }
+        .skill-icon.violet{ background: rgba(123,95,212,0.15); }
+        .skill-icon.amber { background: rgba(245,166,35,0.12); }
+        .skill-icon.green { background: rgba(0,210,120,0.12); }
+        .skill-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.6rem; }
+        .skill-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+        .skill-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+        .pill { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 4px; background: rgba(255,255,255,0.06); color: var(--muted); }
+
+        /* ─── EXPERIENCE ─── */
+        .timeline { position: relative; padding-left: 2rem; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0; width: 1px; background: var(--border); }
+        .tl-item { position: relative; margin-bottom: 3rem; }
+        .tl-dot { position: absolute; left: -2.4rem; top: 0.35rem; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+        .tl-meta { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.3rem; }
+        .tl-item h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.2rem; }
+        .tl-company { font-size: 0.85rem; color: var(--violet); margin-bottom: 0.6rem; }
+        .tl-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.7; }
+        .tl-desc ul { padding-left: 1.2rem; }
+        .tl-desc li { margin-bottom: 0.25rem; }
+
+        /* ─── PROJECT CARDS ─── */
+        #projects { background: var(--navy2); }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .project-card {
+            background: var(--navy3); border: 1px solid var(--border); border-radius: 14px;
+            overflow: hidden; display: flex; flex-direction: column;
+            cursor: pointer; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+        }
+        .project-card:hover {
+            border-color: rgba(123,95,212,0.55);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+        .project-card:hover .view-gallery-hint { opacity: 1; }
+        .project-thumb { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative; overflow: hidden; }
+        .project-thumb.space  { background: linear-gradient(135deg, #0B0E1A 0%, #1a1040 100%); }
+        .project-thumb.dungeon{ background: linear-gradient(135deg, #1a1205 0%, #2d1f00 100%); }
+        .project-thumb.light  { background: linear-gradient(135deg, #0d1520 0%, #1a3045 100%); }
+        .project-thumb.web    { background: linear-gradient(135deg, #0f1a10 0%, #0d2820 100%); }
+        .project-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+        .view-gallery-hint {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.55);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 0.4rem; opacity: 0; transition: opacity 0.25s;
+            font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem;
+            letter-spacing: 0.06em; color: var(--cream); font-weight: 600;
+        }
+        .view-gallery-hint svg { width: 28px; height: 28px; stroke: var(--cyan); fill: none; stroke-width: 1.8; }
+        .project-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
+        .project-date { font-size: 0.72rem; color: var(--muted); margin-bottom: 0.4rem; }
+        .project-body h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .project-body p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; flex: 1; }
+        .project-footer { display: flex; gap: 0.5rem; padding: 0 1.4rem 1.4rem; flex-wrap: wrap; align-items: center; }
+        .project-tag { font-size: 0.7rem; padding: 0.2rem 0.55rem; border-radius: 4px; background: rgba(123,95,212,0.15); color: #a990f5; }
+        .project-link { margin-left: auto; font-size: 0.78rem; color: var(--cyan); text-decoration: none; display: flex; align-items: center; gap: 0.3rem; opacity: 0.8; transition: opacity 0.2s; }
+        .project-link:hover { opacity: 1; }
+
+        /* ─── GALLERY OVERLAY ─── */
+        #gallery-overlay {
+            position: fixed; inset: 0; z-index: 500;
+            background: rgba(7, 9, 18, 0.97);
+            backdrop-filter: blur(20px);
+            display: flex; flex-direction: column;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #gallery-overlay.open { opacity: 1; pointer-events: all; }
+
+        .gallery-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.2rem 2rem;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .gallery-title-block { display: flex; align-items: center; gap: 1.2rem; }
+        .gallery-emoji { font-size: 1.8rem; }
+        .gallery-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; }
+        .gallery-subtitle { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
+        .gallery-close {
+            width: 38px; height: 38px; border-radius: 8px;
+            background: rgba(255,255,255,0.07); border: 1px solid var(--border);
+            color: var(--cream); font-size: 1.2rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .gallery-close:hover { background: rgba(255,255,255,0.14); }
+
+        /* Main image display */
+        .gallery-main {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            position: relative; padding: 1.5rem 4rem; min-height: 0;
+        }
+        .gallery-main-img {
+            max-width: 100%; max-height: 100%;
+            border-radius: 10px;
+            object-fit: contain;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            transition: opacity 0.25s, transform 0.25s;
+        }
+        .gallery-main-img.fade { opacity: 0; transform: scale(0.97); }
+
+        /* Placeholder state (no image uploaded yet) */
+        .gallery-placeholder {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 1rem; color: var(--muted); text-align: center;
+        }
+        .gallery-placeholder svg { width: 56px; height: 56px; stroke: var(--border); fill: none; stroke-width: 1.4; }
+        .gallery-placeholder strong { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; color: var(--cream); }
+        .gallery-placeholder span { font-size: 0.82rem; max-width: 280px; }
+
+        /* Arrow buttons */
+        .gallery-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(255,255,255,0.07); border: 1px solid var(--border);
+            color: var(--cream); font-size: 1.1rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s, border-color 0.2s;
+            z-index: 10;
+        }
+        .gallery-arrow:hover { background: rgba(0,212,255,0.15); border-color: var(--cyan); }
+        .gallery-arrow.prev { left: 0.75rem; }
+        .gallery-arrow.next { right: 0.75rem; }
+        .gallery-arrow:disabled { opacity: 0.2; cursor: default; }
+
+        /* Counter */
+        .gallery-counter {
+            position: absolute; bottom: 0.6rem; left: 50%; transform: translateX(-50%);
+            font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em;
+        }
+
+        /* Thumbnail strip */
+        .gallery-strip {
+            flex-shrink: 0;
+            padding: 1rem 2rem 1.4rem;
+            display: flex; gap: 0.6rem; overflow-x: auto;
+            border-top: 1px solid var(--border);
+            scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+        }
+        .gallery-strip::-webkit-scrollbar { height: 4px; }
+        .gallery-strip::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+        .thumb-slot {
+            flex-shrink: 0; width: 80px; height: 58px;
+            border-radius: 6px; overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer; transition: border-color 0.2s, opacity 0.2s;
+            background: var(--navy3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .thumb-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .thumb-slot.active { border-color: var(--cyan); }
+        .thumb-slot:hover { border-color: var(--violet); }
+
+        /* Empty thumb slot */
+        .thumb-slot.empty {
+            border: 2px dashed rgba(255,255,255,0.12);
+            color: var(--muted); font-size: 0.65rem; text-align: center;
+            padding: 0.3rem; line-height: 1.3; cursor: default;
+            flex-direction: column; gap: 0.2rem;
+        }
+        .thumb-slot.empty svg { width: 16px; height: 16px; stroke: var(--border); fill: none; stroke-width: 1.8; }
+
+        /* Upload hint banner */
+        .gallery-upload-hint {
+            text-align: center; padding: 0.5rem 2rem 0;
+            font-size: 0.75rem; color: var(--muted);
+            flex-shrink: 0;
+        }
+        .gallery-upload-hint code {
+            background: rgba(255,255,255,0.07); border-radius: 4px;
+            padding: 0.1rem 0.4rem; font-size: 0.72rem; color: var(--cyan);
+        }
+
+        /* ─── LIGHTBOX (full-screen single image) ─── */
+        #lightbox {
+            position: fixed; inset: 0; z-index: 600;
+            background: rgba(0,0,0,0.92);
+            display: flex; align-items: center; justify-content: center;
+            cursor: zoom-out; opacity: 0; pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        #lightbox.open { opacity: 1; pointer-events: all; }
+        #lightbox img { max-width: 94vw; max-height: 94vh; object-fit: contain; border-radius: 6px; }
+
+        /* ─── LANGUAGES ─── */
+        .lang-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+        .lang-card { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; }
+        .lang-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 0.8rem; }
+        .lang-level { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.3rem; }
+        .bar-wrap { background: rgba(255,255,255,0.06); border-radius: 100px; height: 5px; margin-bottom: 0.8rem; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--cyan), var(--violet)); }
+
+        /* ─── CONTACT ─── */
+        #contact { background: var(--navy2); text-align: center; }
+        #contact h2 { margin-bottom: 1rem; }
+        #contact .sub { color: var(--muted); max-width: 440px; margin: 0 auto 2.5rem; }
+        .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .contact-chip { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.4rem; border-radius: 8px; background: var(--navy3); border: 1px solid var(--border); color: var(--cream); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: border-color 0.2s, transform 0.2s; }
+        .contact-chip:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-2px); }
+        .contact-chip .ic { font-size: 1rem; }
+
+        /* ─── FOOTER ─── */
+        footer { padding: 2rem 5vw; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem; color: var(--muted); }
+        footer a { color: var(--cyan); text-decoration: none; }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            #about .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .about-stats { grid-template-columns: 1fr 1fr; }
+            .nav-links { display: none; }
+            .gallery-main { padding: 1rem 3.5rem; }
+        }
+
+        /* ─── SCROLL REVEAL ─── */
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s, transform 0.6s; }
+        .reveal.visible { opacity: 1; transform: none; }
+        @media (prefers-reduced-motion: reduce) { .reveal { transition: none; } canvas#stars { display: none; } }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="#hero" class="nav-logo">SG<span>.</span></a>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+    <canvas id="stars"></canvas>
+    <div class="hero-inner">
+        <div class="hero-eyebrow">Available for opportunities</div>
+        <h1>Sidrit<br><span class="line2">Gjyrezi</span></h1>
+        <p class="hero-sub">Creative developer &amp; designer from Shkodër, Albania — building games, 3D worlds, and digital experiences.</p>
+        <div class="hero-tags">
+            <span class="tag">Game Dev</span>
+            <span class="tag">3D Artist</span>
+            <span class="tag">Graphic Design</span>
+            <span class="tag">Front-End</span>
+            <span class="tag">Social Media</span>
+        </div>
+        <div class="hero-cta">
+            <a href="#projects" class="btn btn-primary">View Projects</a>
+            <a href="mailto:sidritgjyrezi@gmail.com" class="btn btn-outline">Get in Touch</a>
+        </div>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="section-label">About</div>
+    <h2>Who I <em>am</em></h2>
+    <div class="about-grid reveal">
+        <div class="about-text">
+            <p>I'm Sidrit — a <strong>19-year-old creative technologist</strong> studying Game Development at HTL Shkodër. I work at the intersection of art and code, crafting everything from Unity games and Blender environments to brand visuals and social campaigns.</p>
+            <p>My work spans <strong>3D modeling</strong>, <strong>graphic design</strong>, <strong>front-end development</strong>, and <strong>game engineering</strong>. Whether I'm sculpting a dungeon level or designing an ad campaign, I bring the same attention to detail and visual instinct.</p>
+            <p>Fluent in German (C1) and English (B2), I'm comfortable working with international clients and teams. I'm always learning, always building.</p>
+        </div>
+        <div class="about-stats">
+            <div class="stat-card"><div class="stat-num">4<span>+</span></div><div class="stat-label">Projects shipped</div></div>
+            <div class="stat-card"><div class="stat-num">3<span>+</span></div><div class="stat-label">Tools &amp; engines</div></div>
+            <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Languages spoken</div></div>
+            <div class="stat-card"><div class="stat-num">11<span>+</span></div><div class="stat-label">Adobe apps mastered</div></div>
+        </div>
+    </div>
+</section>
+<div class="section-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+    <div class="section-label">What I do</div>
+    <h2>Skills &amp; <em>Tools</em></h2>
+    <div class="skills-grid reveal">
+        <div class="skill-card"><div class="skill-icon cyan">🎮</div><h3>Game Development</h3><p>Building 2D &amp; 3D games in Unity with C#, from physics systems to full arcade mechanics.</p><div class="skill-pills"><span class="pill">Unity 2D/3D</span><span class="pill">C#</span><span class="pill">Game Design</span></div></div>
+        <div class="skill-card"><div class="skill-icon violet">🧊</div><h3>3D Art &amp; Modeling</h3><p>High- and low-poly modeling, sculpting, texturing, and environment design in Blender.</p><div class="skill-pills"><span class="pill">Blender</span><span class="pill">Sculpting</span><span class="pill">Env Design</span></div></div>
+        <div class="skill-card"><div class="skill-icon amber">🎨</div><h3>Graphic Design</h3><p>Logos, banners, infographics, and full brand visuals — production-ready for any platform.</p><div class="skill-pills"><span class="pill">Photoshop</span><span class="pill">Illustrator</span><span class="pill">InDesign</span><span class="pill">XD</span></div></div>
+        <div class="skill-card"><div class="skill-icon green">🎬</div><h3>Video &amp; Motion</h3><p>Video editing, motion graphics, and compositing with industry-standard tools.</p><div class="skill-pills"><span class="pill">Premiere Pro</span><span class="pill">After Effects</span><span class="pill">DaVinci Resolve</span></div></div>
+        <div class="skill-card"><div class="skill-icon cyan">🌐</div><h3>Front-End Dev</h3><p>Building clean, responsive websites with a focus on structure and user experience.</p><div class="skill-pills"><span class="pill">HTML/CSS</span><span class="pill">WordPress</span><span class="pill">WebStorm</span></div></div>
+        <div class="skill-card"><div class="skill-icon violet">📱</div><h3>Social Media</h3><p>End-to-end management of accounts, campaigns, content calendars, and paid ads.</p><div class="skill-pills"><span class="pill">Instagram</span><span class="pill">Facebook Ads</span><span class="pill">Strategy</span></div></div>
+    </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+    <div class="section-label">Journey</div>
+    <h2>Experience &amp; <em>Education</em></h2>
+    <div class="timeline reveal">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-meta">Nov 2024 — Present</div><h3>Graphic Designer &amp; Social Media Manager</h3><div class="tl-company">Konfeti Bliss, Shkodër</div><div class="tl-desc"><ul><li>Designing logos, banners, infographics, and video content for social platforms.</li><li>Managing content calendars, scheduling posts, and running paid ad campaigns.</li><li>Staying ahead of design and social media trends to keep content competitive.</li></ul></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-meta">Jul 2024 — Sep 2024</div><h3>Waiter / Bartender</h3><div class="tl-company">Shkodër</div><div class="tl-desc">Independently managed drink service, handled payments, and maintained high cleanliness and service standards while operating alone in a fast-paced setting.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-meta">Jun 2023 — Sep 2023</div><h3>Waiter</h3><div class="tl-company">Hotel Colosseo, Shkodër</div><div class="tl-desc">Served food and drinks, took orders, handled payments, and ensured customer satisfaction. Coordinated closely with kitchen staff.</div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--amber);box-shadow:0 0 10px var(--amber)"></div><div class="tl-meta">Sep 2019 — Present</div><h3>Game Development Student</h3><div class="tl-company">HTL Shkodër Peter Mahringer</div><div class="tl-desc">Specialising in game development — covering software engineering, 3D graphics, design principles, and project-based learning with real deliverables.</div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--violet);box-shadow:0 0 10px var(--violet)"></div><div class="tl-meta">Feb 2024</div><h3>Database Foundations Certificate</h3><div class="tl-company">Oracle Academy</div><div class="tl-desc">Completed Oracle's foundational database course covering SQL and relational data concepts.</div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--violet);box-shadow:0 0 10px var(--violet)"></div><div class="tl-meta">Dec 2024</div><h3>Creative Artist — Youth Program</h3><div class="tl-company">Youth Charge Academy (Qendresa Qytetare)</div><div class="tl-desc">Participated in a creative arts intensive program in Shkodër focused on artistic development and civic engagement.</div></div>
+    </div>
+</section>
+<div class="section-divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+    <div class="section-label">Work</div>
+    <h2>Featured <em>Projects</em></h2>
+    <div class="projects-grid reveal">
+
+        <div class="project-card" data-project="space-shooter">
+            <div class="project-thumb space">
+                <span>🚀</span>
+                <div class="view-gallery-hint">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    View Gallery
+                </div>
+            </div>
+            <div class="project-body">
+                <div class="project-date">Feb 2025</div>
+                <h3>Space Shooter</h3>
+                <p>An arcade-style Unity game featuring a player-controlled spaceship battling waves of enemies in space, with dynamic shooting mechanics and visual effects.</p>
+            </div>
+            <div class="project-footer">
+                <span class="project-tag">Unity</span>
+                <span class="project-tag">C#</span>
+                <span class="project-tag">Particles</span>
+            </div>
+        </div>
+
+        <div class="project-card" data-project="dungeon">
+            <div class="project-thumb dungeon">
+                <span>⚔️</span>
+                <div class="view-gallery-hint">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    View Gallery
+                </div>
+            </div>
+            <div class="project-body">
+                <div class="project-date">Feb 2025</div>
+                <h3>Dungeon</h3>
+                <p>A low-poly dungeon environment with stylized textures, modular structures, and atmospheric lighting — game-ready and optimised for performance.</p>
+            </div>
+            <div class="project-footer">
+                <span class="project-tag">Blender</span>
+                <span class="project-tag">Low-Poly</span>
+                <span class="project-tag">Env Design</span>
+            </div>
+        </div>
+
+        <div class="project-card" data-project="lighthouse">
+            <div class="project-thumb light">
+                <span>🏠</span>
+                <div class="view-gallery-hint">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    View Gallery
+                </div>
+            </div>
+            <div class="project-body">
+                <div class="project-date">Jan 2026</div>
+                <h3>Lighthouse Island</h3>
+                <p>A high-poly 3D scene featuring a lighthouse on a detailed terrain island — showcasing scene composition, terrain sculpting, and custom asset creation.</p>
+            </div>
+            <div class="project-footer">
+                <span class="project-tag">Blender</span>
+                <span class="project-tag">High-Poly</span>
+                <span class="project-tag">Terrain</span>
+            </div>
+        </div>
+
+        <div class="project-card" data-project="northph">
+            <div class="project-thumb web">
+                <span>💻</span>
+                <div class="view-gallery-hint">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    View Gallery
+                </div>
+            </div>
+            <div class="project-body">
+                <div class="project-date">Nov 2025 — Ongoing</div>
+                <h3>NorthPh Website</h3>
+                <p>A website built in WebStorm focusing on clean structure, responsive layout, and solid front-end fundamentals. Source available on GitHub.</p>
+            </div>
+            <div class="project-footer">
+                <span class="project-tag">HTML/CSS</span>
+                <span class="project-tag">Responsive</span>
+                <a class="project-link" href="https://github.com/sidritgjyrezi-spec/NorthPh.git" target="_blank" onclick="event.stopPropagation()">GitHub →</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- LANGUAGES -->
+<section id="languages">
+    <div class="section-label">Communication</div>
+    <h2>Languages</h2>
+    <div class="lang-grid reveal">
+        <div class="lang-card"><h3>🇦🇱 Albanian</h3><div class="lang-level">Native</div><div class="bar-wrap"><div class="bar-fill" style="width:100%"></div></div></div>
+        <div class="lang-card"><h3>🇩🇪 German</h3><div class="lang-level">C1 — Proficient</div><div class="bar-wrap"><div class="bar-fill" style="width:88%"></div></div></div>
+        <div class="lang-card"><h3>🇬🇧 English</h3><div class="lang-level">B2 — Independent</div><div class="bar-wrap"><div class="bar-fill" style="width:70%"></div></div></div>
+    </div>
+</section>
+<div class="section-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+    <div class="section-label">Let's talk</div>
+    <h2>Get in <em>Touch</em></h2>
+    <p class="sub">I'm open to freelance projects, collaborations, and new opportunities. Feel free to reach out.</p>
+    <div class="contact-links reveal">
+        <a href="mailto:sidritgjyrezi@gmail.com" class="contact-chip"><span class="ic">✉️</span> sidritgjyrezi@gmail.com</a>
+        <a href="tel:+35567686913" class="contact-chip"><span class="ic">📞</span> (+355) 67686913</a>
+        <a href="https://github.com/sidritgjyrezi-spec/NorthPh.git" target="_blank" class="contact-chip"><span class="ic">💻</span> GitHub</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <span>© 2026 Sidrit Gjyrezi — Shkodër, Albania</span>
+    <a href="#hero">Back to top ↑</a>
+</footer>
+
+<!-- ─── GALLERY OVERLAY ─── -->
+<div id="gallery-overlay" role="dialog" aria-modal="true" aria-label="Project gallery">
+    <div class="gallery-header">
+        <div class="gallery-title-block">
+            <div class="gallery-emoji" id="gallery-emoji"></div>
+            <div>
+                <div class="gallery-title" id="gallery-title"></div>
+                <div class="gallery-subtitle" id="gallery-subtitle"></div>
+            </div>
+        </div>
+        <button class="gallery-close" id="gallery-close" aria-label="Close gallery">✕</button>
+    </div>
+
+    <div class="gallery-main">
+        <button class="gallery-arrow prev" id="gallery-prev" aria-label="Previous image">&#8592;</button>
+        <img class="gallery-main-img" id="gallery-main-img" src="" alt="" style="display:none" />
+        <div class="gallery-placeholder" id="gallery-placeholder">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <strong>No photos yet</strong>
+            <span>Upload your project images and replace the placeholder paths in the <code>PROJECTS</code> data below.</span>
+        </div>
+        <button class="gallery-arrow next" id="gallery-next" aria-label="Next image">&#8594;</button>
+        <div class="gallery-counter" id="gallery-counter"></div>
+    </div>
+
+    <div class="gallery-upload-hint" id="gallery-upload-hint"></div>
+
+    <div class="gallery-strip" id="gallery-strip"></div>
+</div>
+
+<!-- ─── LIGHTBOX ─── -->
+<div id="lightbox" role="dialog" aria-label="Full-screen image">
+    <img id="lightbox-img" src="" alt="" />
+</div>
+
+<script>
+    /* ══════════════════════════════════════════════
+       PROJECT DATA — add your image paths here
+       Each image can be a relative path (e.g. "images/space1.jpg")
+       or a full URL.
+    ══════════════════════════════════════════════ */
+    const PROJECTS = {
+        'space-shooter': {
+            emoji: '🚀',
+            title: 'Space Shooter',
+            subtitle: 'Unity · C# · Feb 2025',
+            images: [
+                // Add your image paths here, e.g.:
+                // 'images/space-shooter/screenshot1.jpg',
+                // 'images/space-shooter/screenshot2.jpg',
+            ]
+        },
+        'dungeon': {
+            emoji: '⚔️',
+            title: 'Dungeon',
+            subtitle: 'Blender · Low-Poly · Feb 2025',
+            images: [
+                // 'images/dungeon/render1.jpg',
+                // 'images/dungeon/render2.jpg',
+            ]
+        },
+        'lighthouse': {
+            emoji: '🏠',
+            title: 'Lighthouse Island',
+            subtitle: 'Blender · High-Poly · Jan 2026',
+            images: [
+                // 'images/lighthouse/render1.jpg',
+                // 'images/lighthouse/render2.jpg',
+            ]
+        },
+        'northph': {
+            emoji: '💻',
+            title: 'NorthPh Website',
+            subtitle: 'HTML/CSS · Nov 2025',
+            images: [
+                // 'images/northph/screenshot1.jpg',
+            ]
+        }
+    };
+
+    /* ══════════════════════════════════════════════
+       GALLERY LOGIC
+    ══════════════════════════════════════════════ */
+    const overlay     = document.getElementById('gallery-overlay');
+    const closeBtn    = document.getElementById('gallery-close');
+    const mainImg     = document.getElementById('gallery-main-img');
+    const placeholder = document.getElementById('gallery-placeholder');
+    const prevBtn     = document.getElementById('gallery-prev');
+    const nextBtn     = document.getElementById('gallery-next');
+    const counter     = document.getElementById('gallery-counter');
+    const strip       = document.getElementById('gallery-strip');
+    const hint        = document.getElementById('gallery-upload-hint');
+    const lightbox    = document.getElementById('lightbox');
+    const lbImg       = document.getElementById('lightbox-img');
+
+    let currentImages = [];
+    let currentIndex  = 0;
+
+    function openGallery(projectKey) {
+        const p = PROJECTS[projectKey];
+        if (!p) return;
+
+        document.getElementById('gallery-emoji').textContent   = p.emoji;
+        document.getElementById('gallery-title').textContent   = p.title;
+        document.getElementById('gallery-subtitle').textContent = p.subtitle;
+
+        currentImages = p.images || [];
+        currentIndex  = 0;
+
+        renderStrip();
+        showImage(0);
+
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+    }
+
+    function closeGallery() {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function showImage(index) {
+        if (currentImages.length === 0) {
+            mainImg.style.display = 'none';
+            placeholder.style.display = 'flex';
+            counter.textContent = '';
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+            hint.textContent = '';
+            return;
+        }
+
+        placeholder.style.display = 'none';
+        mainImg.style.display = 'block';
+
+        // Fade transition
+        mainImg.classList.add('fade');
+        setTimeout(() => {
+            mainImg.src = currentImages[index];
+            mainImg.alt = `Screenshot ${index + 1}`;
+            mainImg.classList.remove('fade');
+        }, 200);
+
+        currentIndex = index;
+        counter.textContent = `${index + 1} / ${currentImages.length}`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === currentImages.length - 1;
+        hint.textContent = '';
+
+        // Update active thumb
+        strip.querySelectorAll('.thumb-slot').forEach((el, i) => {
+            el.classList.toggle('active', i === index);
+        });
+    }
+
+    function renderStrip() {
+        strip.innerHTML = '';
+
+        if (currentImages.length === 0) {
+            // Show placeholder slots
+            for (let i = 0; i < 4; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'thumb-slot empty';
+                slot.innerHTML = `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo ${i+1}</span>`;
+                strip.appendChild(slot);
+            }
+            return;
+        }
+
+        currentImages.forEach((src, i) => {
+            const slot = document.createElement('div');
+            slot.className = 'thumb-slot' + (i === 0 ? ' active' : '');
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `Thumbnail ${i + 1}`;
+            img.loading = 'lazy';
+            slot.appendChild(img);
+            slot.addEventListener('click', () => showImage(i));
+            strip.appendChild(slot);
+        });
+    }
+
+    // Attach click handlers to project cards
+    document.querySelectorAll('.project-card[data-project]').forEach(card => {
+        card.addEventListener('click', () => openGallery(card.dataset.project));
+    });
+
+    prevBtn.addEventListener('click', () => { if (currentIndex > 0) showImage(currentIndex - 1); });
+    nextBtn.addEventListener('click', () => { if (currentIndex < currentImages.length - 1) showImage(currentIndex + 1); });
+    closeBtn.addEventListener('click', closeGallery);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', e => {
+        if (!overlay.classList.contains('open')) return;
+        if (e.key === 'Escape') { if (lightbox.classList.contains('open')) closeLightbox(); else closeGallery(); }
+        if (e.key === 'ArrowLeft')  prevBtn.click();
+        if (e.key === 'ArrowRight') nextBtn.click();
+    });
+
+    // Click outside overlay header/strip to close
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeGallery(); });
+
+    // Lightbox — click main image to zoom
+    mainImg.addEventListener('click', () => {
+        lbImg.src = currentImages[currentIndex];
+        lightbox.classList.add('open');
+    });
+    function closeLightbox() { lightbox.classList.remove('open'); }
+    lightbox.addEventListener('click', closeLightbox);
+
+    /* ══════════════════════════════════════════════
+       STAR FIELD
+    ══════════════════════════════════════════════ */
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    function initStars() {
+        stars = [];
+        for (let i = 0; i < 180; i++) {
+            stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.2+0.2, a: Math.random(), speed: Math.random()*0.004+0.001 });
+        }
+    }
+    function drawStars() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        stars.forEach(s => {
+            s.a += s.speed;
+            const alpha = (Math.sin(s.a)+1)/2*0.7+0.1;
+            ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+            ctx.fillStyle = `rgba(200,220,255,${alpha})`; ctx.fill();
+        });
+        requestAnimationFrame(drawStars);
+    }
+    resize(); initStars(); drawStars();
+    window.addEventListener('resize', () => { resize(); initStars(); });
+
+    /* ══════════════════════════════════════════════
+       SCROLL REVEAL
+    ══════════════════════════════════════════════ */
+    const observer = new IntersectionObserver(
+        entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+        { threshold: 0.1 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
