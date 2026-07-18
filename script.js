@@ -141,4 +141,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    // ============================================================
+    // WHACK-A-MOLE PREVIEW — DOUBLE-CLICK TO FULLSCREEN
+    // ============================================================
+
+    const wamVid = document.getElementById("wam-preview-vid");
+
+    if (wamVid) {
+
+        wamVid.addEventListener("dblclick", (e) => {
+            e.stopPropagation();
+
+            if (wamVid.requestFullscreen) {
+                wamVid.requestFullscreen();
+            } else if (wamVid.webkitRequestFullscreen) {
+                wamVid.webkitRequestFullscreen();
+            } else if (wamVid.webkitEnterFullscreen) {
+                wamVid.webkitEnterFullscreen(); // iOS Safari
+            }
+
+            wamVid.muted = false;
+            wamVid.play();
+        });
+
+        const onExitWamFullscreen = () => {
+            const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+            if (!isFullscreen) {
+                wamVid.muted = true;
+                wamVid.play();
+            }
+        };
+
+        document.addEventListener("fullscreenchange",       onExitWamFullscreen);
+        document.addEventListener("webkitfullscreenchange", onExitWamFullscreen);
+    }
+
+
 });

@@ -369,6 +369,50 @@ h2 {
 
 
 /* ============================================================
+   EXPERIENCE
+   ============================================================ */
+
+.experience-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+}
+
+.experience-card {
+    background: var(--bg);
+    padding: 2rem;
+    transition: background 0.2s;
+}
+
+.experience-card:hover {
+    background: var(--surface);
+}
+
+.experience-date {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+}
+
+.experience-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+}
+
+.experience-card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    max-width: 650px;
+}
+
+.experience-card .skill-pills {
+    margin-top: 1rem;
+}
+
+
+/* ============================================================
    SKILLS
    ============================================================ */
 
@@ -604,7 +648,12 @@ h2 {
     border-bottom: 1px solid var(--border);
 }
 
-.project-thumb img {
+.project-thumb video {
+    cursor: pointer;
+}
+
+.project-thumb img,
+.project-thumb video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -612,7 +661,8 @@ h2 {
     transition: opacity 0.3s;
 }
 
-.project-card:hover .project-thumb img {
+.project-card:hover .project-thumb img,
+.project-card:hover .project-thumb video {
     opacity: 1;
 }
 
