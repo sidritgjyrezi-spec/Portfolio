@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     requestAnimationFrame(renderCursor);
 
-    const hoverTargets = document.querySelectorAll("a, button, .contact-chip, .skill-card, .feature-card");
+    const hoverTargets = document.querySelectorAll("a, button, .contact-chip, .skill-card, .feature-card, .gallery-btn, .gallery-nav, .gallery-close, .gallery-trigger-thumb");
 
     hoverTargets.forEach(el => {
         el.addEventListener("mouseenter", () => cursorFollower.classList.add("hovering-link"));
@@ -174,6 +174,103 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.addEventListener("fullscreenchange",       onExitWamFullscreen);
         document.addEventListener("webkitfullscreenchange", onExitWamFullscreen);
+    }
+
+
+    // ============================================================
+    // PROJECT GALLERIES (Room X, Blender Home, etc.)
+    // ============================================================
+
+    const roomxGallery = [
+        { src: "Photos/RoomX/gallery/01.svg", caption: "Living room — Blender render" },
+        { src: "Photos/RoomX/gallery/02.svg", caption: "Kitchen — Blender render" },
+        { src: "Photos/RoomX/gallery/03.svg", caption: "Bedroom — Blender render" },
+        { src: "Photos/RoomX/gallery/04.svg", caption: "Top-down floor plan" }
+    ];
+
+    const galleryBtn     = document.getElementById("roomx-gallery-btn");
+    const galleryModal   = document.getElementById("galleryModal");
+    const galleryImage   = document.getElementById("galleryImage");
+    const galleryCaption = document.getElementById("galleryCaption");
+    const galleryCount   = document.getElementById("galleryCount");
+    const galleryClose   = document.getElementById("galleryClose");
+    const galleryPrev    = document.getElementById("galleryPrev");
+    const galleryNext    = document.getElementById("galleryNext");
+
+    let activeGallery = roomxGallery;
+    let galleryIndex  = 0;
+
+    function renderGallerySlide() {
+        const slide = activeGallery[galleryIndex];
+        galleryImage.src = slide.src;
+        galleryImage.alt = slide.caption;
+        galleryCaption.textContent = slide.caption;
+        galleryCount.textContent = `${galleryIndex + 1} / ${activeGallery.length}`;
+    }
+
+    function openGallery(images, startIndex = 0) {
+        activeGallery = images;
+        galleryIndex = startIndex;
+        renderGallerySlide();
+        galleryModal.classList.add("open");
+        galleryModal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeGallery() {
+        galleryModal.classList.remove("open");
+        galleryModal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+    }
+
+    function showPrev() {
+        galleryIndex = (galleryIndex - 1 + activeGallery.length) % activeGallery.length;
+        renderGallerySlide();
+    }
+
+    function showNext() {
+        galleryIndex = (galleryIndex + 1) % activeGallery.length;
+        renderGallerySlide();
+    }
+
+    if (galleryModal) {
+
+        if (galleryBtn) {
+            galleryBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                openGallery(roomxGallery, 0);
+            });
+        }
+
+        // Any project thumbnail with a data-gallery attribute opens its own set of images
+        document.querySelectorAll(".gallery-trigger-thumb").forEach(thumb => {
+            thumb.addEventListener("click", (e) => {
+                e.stopPropagation();
+                try {
+                    const images = JSON.parse(thumb.getAttribute("data-gallery"));
+                    if (images && images.length) openGallery(images, 0);
+                } catch (err) {
+                    console.error("Invalid gallery data:", err);
+                }
+            });
+        });
+
+        galleryClose.addEventListener("click", closeGallery);
+        galleryPrev.addEventListener("click", showPrev);
+        galleryNext.addEventListener("click", showNext);
+
+        // Click outside the image/caption closes the modal
+        galleryModal.addEventListener("click", (e) => {
+            if (e.target === galleryModal) closeGallery();
+        });
+
+        // Keyboard controls
+        document.addEventListener("keydown", (e) => {
+            if (!galleryModal.classList.contains("open")) return;
+            if (e.key === "Escape")     closeGallery();
+            if (e.key === "ArrowLeft")  showPrev();
+            if (e.key === "ArrowRight") showNext();
+        });
     }
 
 
